@@ -2,7 +2,7 @@
 /.local/
 
 # Lake's fixed configuration-cache entry points (build.sh links into .local).
-.lake/
+.lake
 
 # Editor/environment files and caches from manually invoked tools.
 target/
