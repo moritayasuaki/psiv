@@ -1,6 +1,6 @@
 # Security policy
 
-PSIV is experimental research software. It is not production-qualified. The Lean specification has checked theorems, but the Rust runtime is not formally proved equivalent to Lean, and compiled constant-time behavior is not established. See [the security case](docs/SECURITY_CASE.md) and [verification report](docs/VERIFICATION.md).
+PSIV is experimental research software. It is not production-qualified. The Lean specification has checked theorems, but the Rust runtime is not formally proved equivalent to Lean, and compiled constant-time behavior is not established. See [verification scope](docs/VERIFICATION.md) and [safety contracts](docs/SAFETY.md).
 
 For suspected vulnerabilities, use the repository's **Security → Report a vulnerability** option when available. If private reporting is unavailable, contact the repository owner through their public GitHub profile to arrange a private channel before sharing exploit details. Do not include real secret keys, private plaintext or credentials in a public issue.
 

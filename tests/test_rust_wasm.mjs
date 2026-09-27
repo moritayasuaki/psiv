@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import {readFileSync,writeFileSync,mkdirSync} from 'node:fs';
-import {createSession} from '../bindings/wasm/node.mjs';
+import {createSession} from '../.local/wasm/node.mjs';
 const vectors=JSON.parse(readFileSync(new URL('./vectors-extended.json',import.meta.url)));
 let checks=0;
 const bytes=h=>new Uint8Array(Buffer.from(h,'hex'));
@@ -24,6 +24,6 @@ assert.throws(()=>s.open(nonce,empty,new Uint8Array(15)),/length/);checks++;
 await assert.rejects(createSession(new Uint8Array(31)),/32 bytes/);checks++;
 s.destroy();control.destroy();
 const report={status:'PASS',record_cases:vectors.length,checks,backend:'Rust psiv crate via wasm-bindgen; no C crypto linked',node:process.version};
-mkdirSync(new URL('../build/reports/',import.meta.url),{recursive:true});
-writeFileSync(new URL('../build/reports/rust-wasm-tests.json',import.meta.url),JSON.stringify(report,null,2)+'\n');
+mkdirSync(new URL('../.local/reports/',import.meta.url),{recursive:true});
+writeFileSync(new URL('../.local/reports/rust-wasm-tests.json',import.meta.url),JSON.stringify(report,null,2)+'\n');
 console.log(report);

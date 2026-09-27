@@ -1,9 +1,9 @@
 """Public Rust C-ABI and immutable-output regression checks on valid C objects."""
 import ctypes as C,json,pathlib,platform
 root=pathlib.Path(__file__).resolve().parents[1]
-(root/'build/reports').mkdir(parents=True,exist_ok=True)
+(root/'.local/reports').mkdir(parents=True,exist_ok=True)
 ext='dylib' if platform.system()=='Darwin' else 'so'
-lib=C.CDLL(str(root/f'build/rust/release/libpsiv_rust.{ext}'))
+lib=C.CDLL(str(root/f'.local/rust/release/libpsiv_rust.{ext}'))
 P=C.c_void_p;Z=C.c_size_t;R=C.c_ssize_t
 lib.psiv_rs_new.argtypes=[P,Z];lib.psiv_rs_new.restype=P
 lib.psiv_rs_free.argtypes=[P]
@@ -52,4 +52,4 @@ try:
  lib.psiv_rs_free(None)
 finally:lib.psiv_rs_free(ctx)
 report={'status':'PASS','records':len(vectors),'checks':count,'scope':'Rust C ABI on actual valid objects, lengths, overlap and unchanged error output; not a universal FFI memory-safety proof'}
-(root/'build/reports/rust-ffi-tests.json').write_text(json.dumps(report,indent=2)+'\n');print(report)
+(root/'.local/reports/rust-ffi-tests.json').write_text(json.dumps(report,indent=2)+'\n');print(report)

@@ -1,16 +1,15 @@
 # Implemented byte-level specification
 
-Status: local byte specification cross-checked against the authors' Rust code
-at commit `b6eec88ccdc75e489e4f4bc90438391c73185c2c` using 278 shared records.
-This is implementation interoperability evidence, not a security proof.
+This document defines the byte layout implemented by the Lean model and Rust core.
+The pinned author reference below provides construction provenance. Local shared
+fixtures check interoperability; they are not a security proof or official validation vectors.
 
 ## References
 
 - [Pinned author main.rs](https://github.com/MichielVerbauwhede/ChaCha20-Poly1305-PSIV/blob/b6eec88ccdc75e489e4f4bc90438391c73185c2c/implementation/src/main.rs)
 - [Pinned author helper_functions.rs](https://github.com/MichielVerbauwhede/ChaCha20-Poly1305-PSIV/blob/b6eec88ccdc75e489e4f4bc90438391c73185c2c/implementation/src/helper_functions.rs)
 
-Unmodified Rust source, CC0 license, local dependency lock, and the test adapter
-are preserved under `vendor/author-reference` in the [complete archive](../releases/README.md). The adapter adds no cryptographic operations. See [VERIFICATION.md](VERIFICATION.md) and [REFINEMENT.md](REFINEMENT.md) for actual verification scope.
+See [VERIFICATION.md](VERIFICATION.md) and [REFINEMENT.md](REFINEMENT.md) for the scope of the public tests and proofs.
 
 ## Core
 

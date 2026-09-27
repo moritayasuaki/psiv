@@ -1,6 +1,6 @@
-# Lean / Rust / C refinement boundary
+# Lean / Rust refinement boundary
 
-The reference specification is `PSIV/Model.lean`; the reusable typed interface is `PSIV/Library.lean`. The primary runtime is `rust/psiv/src/lib.rs`, with RustCrypto Poly1305 0.8.0. The historical handwritten C implementation is preserved as `c/psiv.c` in the complete release archive. These are separate implementations. **No complete formal equivalence theorem joins them.**
+The reference specification is `PSIV/Model.lean`; the reusable typed interface is `PSIV/Library.lean`. The primary runtime is `rust/psiv/src/lib.rs`, with RustCrypto Poly1305 0.8.0. The model and runtime are separate implementations. **No complete formal equivalence theorem joins them.**
 
 The intended runtime relation associates a Rust `Context` with a Lean `Context` when the two packed tag/encryption keys and the clamped Poly1305 key/pad represent the same bytes derived by `setup`. A complete proof must establish this relation at initialization and preserve it through every call. The Rust Poly1305 field is opaque dependency state: we have not defined a machine-checked decoder or proved this relation for it.
 
@@ -18,4 +18,4 @@ A desired functional statement is: for related contexts and identical admitted b
 
 For a constant-time property, define the permitted leakage first: input lengths, buffer layout, algorithm/backend selection, validation result and the final authentication bit are public. Candidate plaintext and keys remain secret. Then prove equal observations for calls with equal public parameters and authentication outcome, including branches and accessed addresses. Authentication-success-only decryption is permitted only under this explicit leakage policy. Multiplication timing, speculative execution and the WASM engine need their own assumptions or separate analysis.
 
-The earlier C contracts/trace proofs use a different trusted frontend, solver and instrumentation. They are not imported as Lean axioms and cannot certify the Rust source or its dependency backends. The [complete release archive](../releases/README.md) retains its algebra, bounds and outstanding C composition obligations. `leanchecker` replays Lean proof terms with the Lean kernel and trusts imported modules; functional correctness alone does not imply cryptographic security.
+`PSIV.Refinement` exposes mathematical observations of a radix-2^26 limb representation; it does not decode or verify RustCrypto state. `PSIV.ConstantTime` proves trace-encoding properties, not program noninterference. These helpers introduce no Rust or C semantics. `leanchecker` replays Lean proof terms with the Lean kernel and trusts imported modules; functional correctness alone does not imply cryptographic security.

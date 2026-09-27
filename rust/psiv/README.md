@@ -1,6 +1,8 @@
-# psiv — experimental Lean + Rust PSIV
+# psiv — ChaCha20-Poly1305-PSIV
 
-A reusable, allocation-free `no_std` Rust implementation with a separate Lean 4.32.1 specification. The Rust core forbids unsafe code. This is research software: Rust-to-Lean equivalence, compiled constant-time behavior and production security are not established.
+PSIV is authenticated encryption designed for nonce-misuse resistance. It uses Poly1305 over the plaintext and associated data to help derive a synthetic tag, then encrypts with a ChaCha20-core stream determined by that tag. The construction is described in [A Robust Variant of ChaCha20-Poly1305](https://eprint.iacr.org/2025/222).
+
+This crate is a reusable, allocation-free `no_std` Rust implementation with a separate Lean 4.32.1 specification. The Rust core forbids unsafe code. This is research software: Rust-to-Lean equivalence, compiled constant-time behavior and production security are not established.
 
 ```rust
 use psiv::{Context, Error};
@@ -28,4 +30,4 @@ Key size: 32 bytes; nonce size: 12 bytes. Plaintext and associated data are each
 
 The implementation uses pinned RustCrypto Poly1305, `subtle` for tag comparison and `zeroize` for retained keys and working storage. Dependencies can contain unsafe code. Zeroization does not establish erasure of every compiler copy, register, caller buffer or physical trace. Poly1305 requires suitable constant-time multiplication on the chosen processor; no universal machine-code proof is provided. Public lengths, validation status and authentication outcome can affect execution.
 
-The repository contains the Lean model, kernel-checked theorems, source and test logs. Finite agreement with Lean is evidence, not a refinement theorem. The older C implementation's proof results do not transfer to this crate. See `docs/VERIFICATION.md` and `docs/REFINEMENT.md` in the full release.
+The [repository](https://github.com/moritayasuaki/psiv) contains the Lean model, kernel-checked theorems and reproducible tests. Finite agreement with Lean is evidence, not a refinement theorem. See the [verification scope](https://github.com/moritayasuaki/psiv/blob/main/docs/VERIFICATION.md) and [refinement boundary](https://github.com/moritayasuaki/psiv/blob/main/docs/REFINEMENT.md).

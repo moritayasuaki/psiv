@@ -1,10 +1,12 @@
-# Generated products and local environments
+# Internal notes, history, generated packages, reports and build products.
+/.local/
+
+# Lake's fixed configuration-cache entry points (build.sh links into .local).
 .lake/
-build/
+
+# Editor/environment files and caches from manually invoked tools.
 target/
 node_modules/
-dist/
-bindings/wasm/generated/
 .venv/
 __pycache__/
 *.pyc
@@ -12,15 +14,3 @@ __pycache__/
 .env
 .env.*
 !.env.example
-
-# Release packages and historical local archives
-releases/*
-!releases/README.md
-
-# Original host-specific evidence stays in local release archives.
-# GitHub Actions produces fresh evidence for each checked commit.
-docs/verification/v0.5.0/
-docs/verification/layout/
-docs/verification/manifest.json
-docs/verification/SHA256SUMS
-docs/verification/summary.json

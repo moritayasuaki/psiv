@@ -1,7 +1,7 @@
 import Std
 
-/-! Exact trace encoding used by the C relational branch harness.
-This proves a mathematical encoding property, not C or CPU semantics.
+/-! Exact encoding of finite branch traces.
+This proves mathematical encoding properties, not Rust/C or CPU semantics.
 Chronological observations are reversed before this little-endian encoding.
 Equal length is essential: [false] and [] both encode as zero. -/
 namespace PSIV.ConstantTime

@@ -1,5 +1,5 @@
 [build]
-target-dir = "build/rust"
+target-dir = ".local/rust"
 
 # The tested Rust 1.98.1 compiler traps in Poly1305 AVX2 code generation for
 # this bare-metal target. The upstream scalar backend compiles successfully.

@@ -13,4 +13,4 @@ Explain the behavior changed and the checks that support it. For cryptographic o
 
 Use public test keys and synthetic data in issues and test cases. Report suspected vulnerabilities through [SECURITY.md](../SECURITY.md).
 
-Commit source, tests and documentation. Leave local logs, build caches, release archives and host-specific manifests untracked. CI artifacts are finite test/proof evidence for their recorded commit; they do not establish production security. Rust and npm packages are not automatically published.
+Commit source, tests and documentation. Keep internal notes, local logs, release archives, generated packages and host-specific manifests inside the ignored `.local/` directory. Never force-add it. Build scripts also keep compiler caches there through ignored Lake cache symlinks. CI artifacts are finite test/proof evidence for their recorded commit; they do not establish production security. Rust and npm packages are not automatically published.

@@ -1,7 +1,7 @@
 """Fail closed unless every project theorem has only the standard Lean axioms."""
 import json,pathlib,re,subprocess
 root=pathlib.Path(__file__).resolve().parents[1]
-(root/'build/reports').mkdir(parents=True,exist_ok=True)
+(root/'.local/reports').mkdir(parents=True,exist_ok=True)
 names=[]
 for file,namespace in [('PSIV/Properties.lean','PSIV'),('PSIV/Refinement.lean','PSIV.Refinement'),('PSIV/LimbAlgebra.lean','PSIV.LimbAlgebra'),('PSIV/ConstantTime.lean','PSIV.ConstantTime'),('PSIV/Library.lean','PSIV.Library')]:
     source=(root/file).read_text()
@@ -18,6 +18,6 @@ for n in names:
     axioms=[] if m.group(2) is None else [s.strip() for s in m.group(2).split(',') if s.strip()]
     assert set(axioms)<=allowed,(n,axioms)
     results[n]=axioms
-(root/'build/reports/axioms.log').write_text(log)
-(root/'build/reports/axioms.json').write_text(json.dumps(results,indent=2)+'\n')
+(root/'.local/reports/axioms.log').write_text(log)
+(root/'.local/reports/axioms.json').write_text(json.dumps(results,indent=2)+'\n')
 print(f'PASS: {len(results)} theorem axiom audits; no sorryAx or native-evaluation axioms.')

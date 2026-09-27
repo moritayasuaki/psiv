@@ -1,8 +1,8 @@
 import PSIV.Properties
 
-/-! Executable observation boundary for the handwritten C backend.
-No C semantics, compiler correctness, or C refinement theorem is asserted here.
-The C observer returns five 64-bit limbs, each encoded little-endian. -/
+/-! Mathematical observation boundary for a radix-2^26 limb representation.
+No Rust/C semantics, compiler correctness, or runtime refinement is asserted here.
+Observations use five 64-bit limbs, each encoded little-endian. -/
 namespace PSIV.Refinement
 
 def modulus : Nat := 2^130 - 5

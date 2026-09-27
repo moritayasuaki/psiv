@@ -4,7 +4,7 @@ import Std
 Executable mathematical model of ChaCha20-Poly1305-PSIV.
 
 Compiled and kernel-checked with Lean 4.32.1; see docs/VERIFICATION.md.
-The portable C companion is hand-written, NOT generated from this file.
+The Rust runtime is a separate implementation, not generated from this file.
 
 The state layout follows the authors' Rust reference. `Nat` arithmetic, lists,
 eager vector states, and equality here are deliberately specification-oriented;

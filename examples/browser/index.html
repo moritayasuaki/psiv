@@ -3,7 +3,7 @@
 <style>body{max-width:50rem;margin:4rem auto;font:18px system-ui;padding:1rem}pre{white-space:pre-wrap}h1{font-size:1.5rem}</style>
 <h1>PSIV browser package check</h1><p>Experimental Lean + Rust library</p><pre id="result">Running shared record checks…</pre>
 <script type="module">
-import {createSession} from '../../bindings/wasm/browser.mjs';
+import {createSession} from '../../.local/wasm/browser.mjs';
 const result=document.querySelector('#result');
 const hex=s=>Uint8Array.from(s.match(/../g)||[],b=>parseInt(b,16));
 const equal=(a,b)=>a.length===b.length && a.every((v,i)=>v===b[i]);

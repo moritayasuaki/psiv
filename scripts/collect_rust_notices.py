@@ -2,7 +2,7 @@
 import json,pathlib,shutil,subprocess
 root=pathlib.Path(__file__).resolve().parents[1]
 meta=json.loads(subprocess.check_output(['cargo','metadata','--locked','--format-version','1'],cwd=root))
-licenses=root/'bindings/wasm/licenses';licenses.mkdir(parents=True,exist_ok=True)
+licenses=root/'.local/wasm/licenses';licenses.mkdir(parents=True,exist_ok=True)
 rows=[]
 for pkg in meta['packages']:
  if pkg['source'] is None: continue
