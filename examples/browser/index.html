@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en"><meta charset="utf-8"><title>PSIV browser package check</title>
+<style>body{max-width:50rem;margin:4rem auto;font:18px system-ui;padding:1rem}pre{white-space:pre-wrap}h1{font-size:1.5rem}</style>
+<h1>PSIV browser package check</h1><p>Experimental Lean + Rust library</p><pre id="result">Running shared record checks…</pre>
+<script type="module">
+import {createSession} from '../../bindings/wasm/browser.mjs';
+const result=document.querySelector('#result');
+const hex=s=>Uint8Array.from(s.match(/../g)||[],b=>parseInt(b,16));
+const equal=(a,b)=>a.length===b.length && a.every((v,i)=>v===b[i]);
+let checks=0;
+function check(ok){if(!ok)throw Error(`Check ${checks+1} failed`);checks++;}
+try {
+  const response=await fetch('../../tests/vectors-extended.json');
+  if(!response.ok)throw Error('Could not load fixtures');
+  const vectors=await response.json();
+  for(const v of vectors){
+    const session=await createSession(hex(v.key));
+    try {
+      const nonce=hex(v.nonce),ad=hex(v.ad),message=hex(v.plaintext),record=hex(v.record);
+      check(equal(session.seal(nonce,ad,message),record));
+      check(equal(session.open(nonce,ad,record),message));
+      const bad=record.slice();bad[bad.length-1]^=1;
+      let rejected=false;try{session.open(nonce,ad,bad);}catch{rejected=true;}
+      check(rejected);check(equal(record,hex(v.record)));
+    } finally {session.destroy();}
+  }
+  result.textContent=`PASS: ${vectors.length} records; ${checks} checks. Browser loaded the Rust WebAssembly package.
+${navigator.userAgent}
+Finite tests are not formal equivalence or constant-time proofs.`;
+}catch(e){result.textContent=`FAIL: ${e.stack||e}`;}
+</script></html>

@@ -1,0 +1,26 @@
+# Generated products and local environments
+.lake/
+build/
+target/
+node_modules/
+dist/
+bindings/wasm/generated/
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+.env
+.env.*
+!.env.example
+
+# Release packages and historical local archives
+releases/*
+!releases/README.md
+
+# Original host-specific evidence stays in local release archives.
+# GitHub Actions produces fresh evidence for each checked commit.
+docs/verification/v0.5.0/
+docs/verification/layout/
+docs/verification/manifest.json
+docs/verification/SHA256SUMS
+docs/verification/summary.json

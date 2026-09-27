@@ -1,0 +1,7 @@
+[build]
+target-dir = "build/rust"
+
+# The tested Rust 1.98.1 compiler traps in Poly1305 AVX2 code generation for
+# this bare-metal target. The upstream scalar backend compiles successfully.
+[target.x86_64-unknown-none]
+rustflags = ["--cfg", "poly1305_force_soft"]

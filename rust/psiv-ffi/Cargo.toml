@@ -1,0 +1,13 @@
+[package]
+name = "psiv-ffi"
+version = "0.5.0-experimental"
+edition = "2021"
+rust-version = "1.85"
+license = "MIT"
+repository = "https://github.com/moritayasuaki/psiv"
+publish = false
+[lib]
+name = "psiv_rust"
+crate-type = ["staticlib", "cdylib", "rlib"]
+[dependencies]
+psiv = { path = "../psiv", version = "=0.5.0-experimental" }

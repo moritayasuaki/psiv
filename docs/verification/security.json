@@ -1,0 +1,20 @@
+{
+  "version": "0.5.0-experimental",
+  "release_class": "experimental",
+  "primary_runtime": "Rust",
+  "specification": "Lean 4.32.1",
+  "lean_model_kernel_checked": true,
+  "lean_theorem_count": 36,
+  "rust_core_no_std": true,
+  "rust_core_forbids_unsafe": true,
+  "dependencies_may_use_unsafe": true,
+  "whole_rust_to_lean_equivalence": false,
+  "whole_c_to_lean_equivalence": false,
+  "rust_constant_time_proof": false,
+  "compiled_binary_constant_time_proof": false,
+  "universal_ffi_memory_safety_proof": false,
+  "independent_cryptographic_audit": false,
+  "per_key_usage_limits_derived_and_enforced": false,
+  "production_qualified": false,
+  "c_proof_evidence": "Preserved v0.4; does not apply to new Rust runtime"
+}

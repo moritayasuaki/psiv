@@ -1,0 +1,29 @@
+{
+  "name": "@psiv/experimental",
+  "version": "0.5.0-experimental",
+  "description": "Reusable Rust PSIV runtime with a separate Lean specification",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "types": "./index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "node": "./node.mjs",
+      "default": "./browser.mjs"
+    },
+    "./browser": {
+      "types": "./index.d.ts",
+      "default": "./browser.mjs"
+    }
+  },
+  "files": [
+    "*.mjs",
+    "index.d.ts",
+    "generated",
+    "README.md",
+    "LICENSE",
+    "licenses"
+  ],
+  "sideEffects": false
+}

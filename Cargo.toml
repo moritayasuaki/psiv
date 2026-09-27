@@ -1,0 +1,8 @@
+[workspace]
+members = ["rust/psiv", "rust/psiv-ffi", "rust/psiv-wasm"]
+default-members = ["rust/psiv", "rust/psiv-wasm"]
+resolver = "2"
+
+[profile.release]
+overflow-checks = true
+panic = "abort"

@@ -1,0 +1,10 @@
+* text=auto eol=lf
+*.wasm binary
+*.png binary
+*.zip binary
+*.gz binary
+*.crate binary
+
+# Preserve upstream license bytes and formatting.
+bindings/wasm/licenses/** -text -whitespace
+docs/licenses/** -text -whitespace

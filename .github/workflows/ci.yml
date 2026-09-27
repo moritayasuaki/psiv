@@ -1,0 +1,84 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: Verify (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 40
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-24.04, macos-14]
+    defaults:
+      run:
+        shell: bash
+    env:
+      CARGO_TERM_COLOR: always
+      RUST_BACKTRACE: "1"
+    steps:
+      - name: Check out source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - name: Set up Node
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: "22.22.3"
+          package-manager-cache: false
+      - name: Install Rust toolchain
+        run: |
+          rustup toolchain install 1.98.1 --profile minimal --component rustfmt --component clippy --target wasm32-unknown-unknown
+          rustup show active-toolchain
+          rustc --version
+          cargo --version
+      - name: Install pinned Lean toolchain manager
+        run: |
+          case "$(uname -s)-$(uname -m)" in
+            Linux-x86_64) target=x86_64-unknown-linux-gnu; sha=42b94d4244e8353142c456ec0e4ca6528fd898a6c604d4059f494e706e431f63 ;;
+            Linux-aarch64) target=aarch64-unknown-linux-gnu; sha=05febd124d84ebf994b2e7479922a5650b1e950c17ae3bd1ddd776b65bb72bf9 ;;
+            Darwin-arm64) target=aarch64-apple-darwin; sha=7ad829861392c718dfebde3a83b5c8508df47be02af68894b094b0b3952616e5 ;;
+            Darwin-x86_64) target=x86_64-apple-darwin; sha=8a340b309d8ed2e96f930761fa223b3af57a38f5d253b53ac90293c9516f8cd4 ;;
+            *) exit 1 ;;
+          esac
+          mkdir -p "$RUNNER_TEMP/psiv-elan"
+          curl --fail --location --retry 3 "https://github.com/leanprover/elan/releases/download/v4.2.4/elan-$target.tar.gz" -o "$RUNNER_TEMP/psiv-elan/elan.tar.gz"
+          echo "$sha  $RUNNER_TEMP/psiv-elan/elan.tar.gz" | shasum -a 256 -c -
+          tar -xzf "$RUNNER_TEMP/psiv-elan/elan.tar.gz" -C "$RUNNER_TEMP/psiv-elan"
+          "$RUNNER_TEMP/psiv-elan/elan-init" -y --no-modify-path --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: Install WASM binding generator
+        run: cargo install --locked --version 0.2.100 wasm-bindgen-cli
+      - name: Build Lean, Rust, WASM and optional C ABI
+        run: ./scripts/build.sh --ffi
+      - name: Check proofs, shared vectors and public APIs
+        run: ./scripts/check.sh --ffi
+      - name: Package reusable libraries
+        run: ./scripts/package.sh
+      - name: Retain scoped verification evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: verification-${{ matrix.os }}
+          path: build/reports/
+          if-no-files-found: warn
+          retention-days: 14
+      - name: Retain locally installable packages
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: packages-${{ matrix.os }}
+          path: releases/packages/
+          if-no-files-found: error
+          retention-days: 14

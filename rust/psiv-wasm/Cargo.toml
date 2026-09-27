@@ -1,0 +1,15 @@
+[package]
+name = "psiv-wasm"
+version = "0.5.0-experimental"
+edition = "2021"
+rust-version = "1.85"
+license = "MIT"
+repository = "https://github.com/moritayasuaki/psiv"
+publish = false
+[lib]
+crate-type = ["cdylib", "rlib"]
+[dependencies]
+psiv = { path = "../psiv", version = "=0.5.0-experimental" }
+wasm-bindgen = "=0.2.100"
+js-sys = "=0.3.77"
+zeroize = { version = "=1.9.0", features = ["alloc"] }
