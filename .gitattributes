@@ -5,6 +5,6 @@
 *.gz binary
 *.crate binary
 
-# Preserve upstream license bytes and formatting.
-bindings/wasm/licenses/** -text -whitespace
-docs/licenses/** -text -whitespace
+# Preserve upstream license bytes and exclude notices from language statistics.
+bindings/wasm/licenses/** -text -whitespace linguist-vendored
+docs/licenses/** -text -whitespace linguist-vendored
